@@ -15,7 +15,9 @@ spec:
                 - path: application-sets/example-apps/*
           # cluster generator, 'child' #2
           - clusters:
-              
+              # Remove label selector to choose all clusters
+              selector: {}
+
   template:
     metadata:
       name: '{{path.basename}}-{{name}}'
@@ -28,3 +30,9 @@ spec:
       destination:
         server: '{{server}}'
         namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
